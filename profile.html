@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园食堂 - 个人中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --primary-light: #FF8C42;
+            --yellow: #FFD93D;
+            --orange: #FF6B35;
+            --bg-page: #FFF8E7;
+            --bg-card: #FFFFFF;
+            --text-primary: #3D2914;
+            --text-secondary: #8B7355;
+            --text-tertiary: #A89078;
+            --price: #FF6B6B;
+            --border: #FFE4B5;
+            --tag-bg: #FFF3E0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(180deg, var(--yellow) 0%, var(--orange) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* 用户信息卡片 */
+        .user-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 40px 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* 头像放大预览弹窗 */
+        .avatar-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .avatar-modal.active {
+            display: flex;
+        }
+
+        .avatar-modal-content {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .avatar-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .avatar-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-text {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .user-meta {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 统计卡片 */
+        .stats-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin: -30px 16px 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-list {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 功能菜单 */
+        .menu-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:active {
+            background: var(--bg-page);
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+        }
+
+        .menu-text {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .menu-arrow {
+            font-size: 18px;
+            color: var(--text-tertiary);
+        }
+
+        /* 订单历史 */
+        .order-history {
+            margin: 12px 16px;
+        }
+
+        .order-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .order-history-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .order-history-more {
+            font-size: 13px;
+            color: var(--primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .order-list {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .order-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .order-id {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .order-status {
+            font-size: 12px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: #FF9800;
+        }
+
+        .status-cooking {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+
+        .status-delivery {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .status-completed {
+            background: rgba(158, 158, 158, 0.1);
+            color: #9E9E9E;
+        }
+
+        .order-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .order-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .order-details {
+            flex: 1;
+        }
+
+        .order-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .order-quantity {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .order-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--price);
+        }
+
+        .order-time {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* 地址管理弹窗 */
+        .address-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .address-modal.active {
+            display: flex;
+        }
+
+        .address-content {
+            width: 100%;
+            max-width: 340px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .address-header {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .address-body {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .address-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .address-item.active {
+            border-color: var(--primary);
+            background: var(--tag-bg);
+        }
+
+        .address-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .address-text {
+            flex: 1;
+        }
+
+        .address-name {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .address-detail {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .address-actions {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+        }
+
+        .address-btn {
+            flex: 1;
+            height: 44px;
+            border: none;
+            border-radius: 22px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .address-btn-cancel {
+            background: var(--bg-page);
+            color: var(--text-secondary);
+        }
+
+        .address-btn-confirm {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-card);
+            display: flex;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-decoration: none;
+            color: var(--text-tertiary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        /* 提示消息 */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 400;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 响应式 */
+        @media (max-width: 360px) {
+            .user-avatar {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .user-name {
+                font-size: 18px;
+            }
+        }
+
+        /* 增强响应式布局 - 适配各种手机屏幕 */
+        @media (max-width: 320px) {
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .user-name {
+                font-size: 16px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+        }
+
+        @media (min-width: 361px) and (max-width: 414px) {
+            .user-avatar {
+                width: 65px;
+                height: 65px;
+            }
+        }
+
+        @media (min-width: 415px) and (max-width: 768px) {
+            .user-avatar {
+                width: 75px;
+                height: 75px;
+            }
+        }
+
+        /* 确保图片不变形 */
+        img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* 确保文字不溢出 */
+        .user-name, .menu-text {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* 确保按钮可点击 */
+        button, .nav-item, .menu-item {
+            min-height: 44px;
+            min-width: 44px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 用户信息卡片 -->
+    <div class="user-card">
+        <div class="user-info">
+            <img class="user-avatar" src="https://c-ssl.dtstatic.com/uploads/blog/202312/02/jJSO2bOZSeJZALw.thumb.400_0.png" alt="头像">
+            <div class="user-text">
+                <div class="user-name">张同学</div>
+                <div class="user-meta">学生公寓3号楼 302室</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 头像放大预览弹窗 -->
+    <div class="avatar-modal" id="avatarModal">
+        <button class="avatar-modal-close" id="avatarModalClose">×</button>
+        <img src="https://c-ssl.dtstatic.com/uploads/blog/202312/02/jJSO2bOZSeJZALw.thumb.400_0.png" alt="头像大图" class="avatar-modal-content" id="avatarModalImage">
+    </div>
+
+    <!-- 统计卡片 -->
+    <div class="stats-card">
+        <div class="stats-list">
+            <div class="stat-item" onclick="showToast('功能开发中')">
+                <div class="stat-value" id="orderCount">0</div>
+                <div class="stat-label">订单数</div>
+            </div>
+            <div class="stat-item" onclick="showToast('功能开发中')">
+                <div class="stat-value">¥<span id="balance">156.50</span></div>
+                <div class="stat-label">余额</div>
+            </div>
+            <div class="stat-item" onclick="showToast('功能开发中')">
+                <div class="stat-value">3</div>
+                <div class="stat-label">优惠券</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 订单历史 -->
+    <div class="order-history">
+        <div class="order-history-header">
+            <span class="order-history-title">最近订单</span>
+            <button class="order-history-more" onclick="showToast('功能开发中')">查看全部</button>
+        </div>
+        <div class="order-list" id="orderList">
+            <div class="order-item">
+                <div class="order-header">
+                    <span class="order-id">暂无订单</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 功能菜单 -->
+    <div class="menu-card">
+        <div class="menu-item" onclick="openAddressModal()">
+            <div class="menu-left">
+                <span class="menu-icon">📍</span>
+                <span class="menu-text">收货地址</span>
+            </div>
+            <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <div class="menu-left">
+                <span class="menu-icon">💰</span>
+                <span class="menu-text">我的钱包</span>
+            </div>
+            <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <div class="menu-left">
+                <span class="menu-icon">🎫</span>
+                <span class="menu-text">优惠券</span>
+            </div>
+            <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="showToast('功能开发中')">
+            <div class="menu-left">
+                <span class="menu-icon">⚙️</span>
+                <span class="menu-text">设置</span>
+            </div>
+            <span class="menu-arrow">›</span>
+        </div>
+        <div class="menu-item" onclick="contactService()">
+            <div class="menu-left">
+                <span class="menu-icon">📞</span>
+                <span class="menu-text">联系客服</span>
+            </div>
+            <span class="menu-arrow">›</span>
+        </div>
+    </div>
+
+    <!-- 地址管理弹窗 -->
+    <div class="address-modal" id="addressModal">
+        <div class="address-content">
+            <div class="address-header">选择收货地址</div>
+            <div class="address-body" id="addressList"></div>
+            <div class="address-actions">
+                <button class="address-btn address-btn-cancel" onclick="closeAddressModal()">取消</button>
+                <button class="address-btn address-btn-confirm" onclick="closeAddressModal()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>首页</span>
+        </a>
+        <a href="cart.html" class="nav-item">
+            <span class="nav-icon">🛒</span>
+            <span>购物车</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <span class="nav-icon">👤</span>
+            <span>我的</span>
+        </a>
+    </nav>
+
+    <script>
+        // 收货地址数据
+        const addresses = [
+            { id: 1, name: '张同学', phone: '138****8888', dormitory: '学生公寓3号楼', room: '302', isDefault: true },
+            { id: 2, name: '张同学', phone: '138****8888', dormitory: '学生公寓5号楼', room: '618', isDefault: false },
+            { id: 3, name: '张同学', phone: '138****8888', dormitory: '图书馆', room: '自习室A区', isDefault: false }
+        ];
+
+        // 加载订单历史
+        function loadOrderHistory() {
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const orderList = document.getElementById('orderList');
+            const orderCount = document.getElementById('orderCount');
+
+            orderCount.textContent = orderHistory.length;
+
+            if (orderHistory.length === 0) {
+                orderList.innerHTML = `
+                    <div class="order-item">
+                        <div class="order-header">
+                            <span class="order-id">暂无订单</span>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            orderList.innerHTML = orderHistory.slice(0, 3).map(order => {
+                const firstItem = order.items[0];
+                const statusText = {
+                    'pending': '待处理',
+                    'cooking': '制作中',
+                    'delivery': '配送中',
+                    'completed': '已完成'
+                };
+                const statusClass = `status-${order.status}`;
+
+                return `
+                    <div class="order-item">
+                        <div class="order-header">
+                            <span class="order-id">${order.id}</span>
+                            <span class="order-status ${statusClass}">${statusText[order.status] || '待处理'}</span>
+                        </div>
+                        <div class="order-info">
+                            <img src="${firstItem.image}" alt="${firstItem.name}">
+                            <div class="order-details">
+                                <div class="order-name">${firstItem.name}</div>
+                                <div class="order-quantity">共${order.items.length}件商品</div>
+                            </div>
+                            <div class="order-price">¥${order.total.toFixed(2)}</div>
+                        </div>
+                        <div class="order-time">${order.time}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 渲染地址列表
+        function renderAddressList() {
+            const addressList = document.getElementById('addressList');
+            addressList.innerHTML = addresses.map(addr => `
+                <div class="address-item ${addr.isDefault ? 'active' : ''}" onclick="selectAddress(${addr.id})">
+                    <span class="address-icon">🏠</span>
+                    <div class="address-text">
+                        <div class="address-name">${addr.name} ${addr.phone}</div>
+                        <div class="address-detail">${addr.dormitory} ${addr.room}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 选择地址
+        function selectAddress(id) {
+            addresses.forEach(addr => addr.isDefault = false);
+            const addr = addresses.find(a => a.id === id);
+            if (addr) {
+                addr.isDefault = true;
+                // 保存到本地存储
+                localStorage.setItem('defaultAddress', JSON.stringify(addr));
+            }
+            renderAddressList();
+            showToast('已选择收货地址');
+        }
+
+        // 打开地址弹窗
+        function openAddressModal() {
+            renderAddressList();
+            document.getElementById('addressModal').classList.add('active');
+        }
+
+        // 关闭地址弹窗
+        function closeAddressModal() {
+            document.getElementById('addressModal').classList.remove('active');
+        }
+
+        // 联系客服
+        function contactService() {
+            showToast('客服电话：400-123-4567');
+        }
+
+        // 显示提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // 头像点击放大预览
+        function setupAvatarClick() {
+            const userAvatar = document.querySelector('.user-avatar');
+            const avatarModal = document.getElementById('avatarModal');
+            const avatarModalClose = document.getElementById('avatarModalClose');
+
+            // 点击头像打开弹窗
+            userAvatar.addEventListener('click', () => {
+                avatarModal.classList.add('active');
+            });
+
+            // 点击关闭按钮关闭弹窗
+            avatarModalClose.addEventListener('click', () => {
+                avatarModal.classList.remove('active');
+            });
+
+            // 点击弹窗外部关闭
+            avatarModal.addEventListener('click', (e) => {
+                if (e.target === avatarModal) {
+                    avatarModal.classList.remove('active');
+                }
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrderHistory();
+            setupAvatarClick();
+        });
+    </script>
+</body>
+</html>
