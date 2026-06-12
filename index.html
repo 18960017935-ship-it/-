@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园食堂外送 - 首页</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <div class="header-content">
+            <div class="user-info" id="userInfo">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=student%20avatar%20cartoon%20style&image_size=square" alt="用户头像" class="avatar" id="userAvatar">
+                <span class="greeting" id="greetingText">点击登录</span>
+            </div>
+            <div class="header-right">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 搜索框 -->
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="搜索食堂、搜窗口、搜美食..." />
+            <button id="searchBtn">搜索</button>
+        </div>
+    </header>
+
+    <!-- 轮播广告 -->
+    <section class="banner">
+        <div class="banner-slider">
+            <div class="banner-item active">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=campus%20canteen%20delicious%20food%20promotion%20banner&image_size=landscape_16_9" alt="banner1">
+                <div class="banner-text">
+                    <span class="tag">新生首单</span>
+                    <p>全场满20减5</p>
+                    <button class="banner-btn">立即领取</button>
+                </div>
+            </div>
+            <div class="banner-item">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=healthy%20campus%20food%20salad%20vegetables&image_size=landscape_16_9" alt="banner2">
+                <div class="banner-text">
+                    <span class="tag">健康饮食</span>
+                    <p>轻食沙拉专区</p>
+                    <button class="banner-btn">查看详情</button>
+                </div>
+            </div>
+            <div class="banner-item">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=campus%20night%20snack%20noodles%20delicious&image_size=landscape_16_9" alt="banner3">
+                <div class="banner-text">
+                    <span class="tag">深夜食堂</span>
+                    <p>22:00前配送</p>
+                    <button class="banner-btn">立即点餐</button>
+                </div>
+            </div>
+        </div>
+        <div class="banner-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <!-- 分类菜单 -->
+    <section class="category">
+        <div class="category-item">
+            <div class="category-icon hot">
+                <i class="fas fa-fire"></i>
+            </div>
+            <span>麻辣香锅</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon noodles">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <span>经典面食</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon salad">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <span>轻食沙拉</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon set">
+                <i class="fas fa-box"></i>
+            </div>
+            <span>套餐专区</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon dessert">
+                <i class="fas fa-ice-cream"></i>
+            </div>
+            <span>甜品饮品</span>
+        </div>
+        <div class="category-item">
+            <div class="category-icon rice">
+                <i class="fas fa-drumstick-bite"></i>
+            </div>
+            <span>米饭套餐</span>
+        </div>
+    </section>
+
+    <!-- 视频介绍区域 -->
+    <section class="video-section">
+        <h2 class="section-title">食堂风采</h2>
+        <div class="video-container">
+            <iframe 
+                src="https://player.bilibili.com/player.html?bvid=BV1QX4y1U7S8&t=19.8&page=1&autoplay=0" 
+                scrolling="no" 
+                border="0" 
+                frameborder="no" 
+                framespacing="0" 
+                allowfullscreen="true"
+                class="bilibili-video">
+            </iframe>
+            <p class="video-desc">校园食堂环境展示</p>
+        </div>
+    </section>
+
+    <!-- 推荐菜品区 -->
+    <section class="recommend">
+        <div class="section-header">
+            <h2 class="section-title">附近热门食堂</h2>
+            <button class="more-btn">查看全部</button>
+        </div>
+        
+        <div class="food-list" id="foodList">
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="https://pic1.zhimg.com/v2-84424171ad1e8ea61623cb706b819b40_r.jpg" alt="麻辣香锅">
+                    <span class="distance">4.5分 | 距您200m</span>
+                </div>
+                <div class="food-info">
+                    <h3>一食堂·麻辣香锅</h3>
+                    <p class="food-desc">麻辣鲜香，回味无穷</p>
+                    <div class="food-bottom">
+                        <span class="price">¥15起</span>
+                        <button class="add-cart" data-food="麻辣香锅套餐">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="https://pic2.zhimg.com/v2-fa88f870dbadb358a5ae2c189a4f7a9f_1200x500.jpg" alt="兰州拉面">
+                    <span class="distance">4.8分 | 距您350m</span>
+                </div>
+                <div class="food-info">
+                    <h3>二食堂·兰州拉面</h3>
+                    <p class="food-desc">正宗兰州风味，劲道爽滑</p>
+                    <div class="food-bottom">
+                        <span class="price">¥12起</span>
+                        <button class="add-cart" data-food="兰州拉面">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=healthy%20salad%20bowl%20fresh%20vegetables%20chicken&image_size=square" alt="轻食沙拉">
+                    <span class="distance">4.6分 | 距您180m</span>
+                </div>
+                <div class="food-info">
+                    <h3>三食堂·轻食沙拉</h3>
+                    <p class="food-desc">新鲜健康，营养均衡</p>
+                    <div class="food-bottom">
+                        <span class="price">¥18起</span>
+                        <button class="add-cart" data-food="轻食沙拉套餐">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chinese%20rice%20set%20meal%20meat%20vegetables&image_size=square" alt="米饭套餐">
+                    <span class="distance">4.7分 | 距您400m</span>
+                </div>
+                <div class="food-info">
+                    <h3>四食堂·沙县小吃</h3>
+                    <p class="food-desc">经典沙县，美味实惠</p>
+                    <div class="food-bottom">
+                        <span class="price">¥10起</span>
+                        <button class="add-cart" data-food="沙县小吃套餐">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 近日热销数据展示 -->
+    <section class="hot-sales">
+        <div class="section-header">
+            <h2 class="section-title">近日热销</h2>
+            <div class="upload-section">
+                <input type="file" id="dataFile" accept=".json,.xlsx,.xls" style="display: none;">
+                <button class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-upload"></i>
+                    上传数据
+                </button>
+                <button class="refresh-btn" id="refreshBtn">
+                    <i class="fas fa-refresh"></i>
+                    刷新
+                </button>
+            </div>
+        </div>
+
+        <!-- 热销榜单 -->
+        <div class="sales-table-section">
+            <h3 class="chart-title">热销菜品排行</h3>
+            <div class="sales-table-container">
+                <table class="sales-table" id="salesTable">
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>菜品</th>
+                            <th>销量</th>
+                            <th>单价</th>
+                            <th>销售额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 动态生成表格内容 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部Tab栏 -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="cart.html" class="nav-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span>点餐</span>
+            <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-bicycle"></i>
+            <span>跑腿</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+
+    <!-- 购物车悬浮按钮 -->
+    <div class="float-cart" id="floatCart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="float-badge" id="floatBadge">0</span>
+        <div class="float-total">¥0.00</div>
+    </div>
+
+    <!-- 视频弹窗 -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="video-wrapper">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=campus%20canteen%20tour%20video%20screen&image_size=landscape_16_9" alt="视频内容">
+                <p class="video-placeholder">视频播放区域</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录弹窗 -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content login-modal">
+            <div class="login-header">
+                <h2>用户登录</h2>
+                <p>校园食堂外送系统</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginId">学号</label>
+                    <input type="text" id="loginId" placeholder="请输入学号" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPwd">密码</label>
+                    <input type="password" id="loginPwd" placeholder="请输入密码" required>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">记住我</label>
+                </div>
+                
+                <button type="submit" class="login-btn">登录</button>
+                
+                <div class="login-links">
+                    <a href="#" class="forgot-pwd">忘记密码?</a>
+                    <a href="#" class="register">注册账号</a>
+                </div>
+            </form>
+            
+            <div class="quick-login">
+                <span>快捷登录</span>
+                <div class="quick-btns">
+                    <button class="quick-btn" data-user="student">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>学生登录</span>
+                    </button>
+                    <button class="quick-btn" data-user="teacher">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>教师登录</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园食堂外送 - 个人中心</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 用户信息头部 -->
+    <header class="profile-header">
+        <div class="user-card">
+            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=young%20student%20avatar%20cartoon%20friendly&image_size=square" alt="用户头像" class="user-avatar">
+            <div class="user-info">
+                <h2>张同学</h2>
+                <p class="user-id">202412345678 | 12号楼</p>
+            </div>
+            <button class="edit-profile">
+                <i class="fas fa-edit"></i>
+            </button>
+        </div>
+
+        <!-- 统计数据 -->
+        <div class="stats-card">
+            <div class="stat-item">
+                <span class="stat-value">12</span>
+                <span class="stat-label">全部订单</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">3</span>
+                <span class="stat-label">优惠券</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">5</span>
+                <span class="stat-label">收藏</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">128</span>
+                <span class="stat-label">积分</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 订单状态 -->
+    <section class="order-status">
+        <div class="status-header">
+            <h3>我的订单</h3>
+            <a href="#" class="view-all">查看全部</a>
+        </div>
+        <div class="status-list">
+            <a href="#" class="status-item">
+                <div class="status-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <span>待付款</span>
+            </a>
+            <a href="#" class="status-item">
+                <div class="status-icon preparing">
+                    <i class="fas fa-cooking"></i>
+                </div>
+                <span>待取餐</span>
+            </a>
+            <a href="#" class="status-item">
+                <div class="status-icon delivering">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <span>配送中</span>
+                <span class="status-badge">1</span>
+            </a>
+            <a href="#" class="status-item">
+                <div class="status-icon completed">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span>已完成</span>
+            </a>
+            <a href="#" class="status-item">
+                <div class="status-icon refund">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <span>退款/售后</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 当前配送订单 -->
+    <section class="current-order">
+        <div class="order-card">
+            <div class="order-header">
+                <span class="order-status-tag delivering">配送中</span>
+                <span class="order-time">预计 10:30 送达</span>
+            </div>
+            
+            <div class="order-content">
+                <div class="order-food">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spicy%20chinese%20food%20mala%20xiang%20guo&image_size=square_hd" alt="商品">
+                    <div class="food-info">
+                        <h4>麻辣香锅套餐</h4>
+                        <p>微辣 | 中份</p>
+                    </div>
+                    <span class="food-price">¥22.00</span>
+                </div>
+                
+                <div class="order-divider"></div>
+                
+                <div class="rider-section">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=delivery%20rider%20on%20bicycle%20campus&image_size=square_hd" alt="骑手" class="rider-photo">
+                    <div class="rider-info">
+                        <div class="rider-name-row">
+                            <span class="rider-name">李骑手</span>
+                            <button class="call-rider">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                        </div>
+                        <p class="delivery-progress">骑手已取餐，正在配送中...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-actions">
+                <button class="action-btn small">联系骑手</button>
+                <button class="action-btn small primary">确认收货</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能菜单 -->
+    <section class="menu-section">
+        <div class="menu-list">
+            <a href="#" class="menu-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>收货地址管理</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-ticket-alt"></i>
+                <span>学生专属优惠</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-headset"></i>
+                <span>在线客服</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>设置</span>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 订单统计图表 -->
+    <section class="stats-section">
+        <h3 class="section-title">本月消费统计</h3>
+        <div class="chart-container">
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <span class="bar-label">周一</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 60%;"></div>
+                    </div>
+                    <span class="bar-value">¥30</span>
+                </div>
+                <div class="bar-item">
+                    <span class="bar-label">周二</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 80%;"></div>
+                    </div>
+                    <span class="bar-value">¥40</span>
+                </div>
+                <div class="bar-item">
+                    <span class="bar-label">周三</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 40%;"></div>
+                    </div>
+                    <span class="bar-value">¥20</span>
+                </div>
+                <div class="bar-item">
+                    <span class="bar-label">周四</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 90%;"></div>
+                    </div>
+                    <span class="bar-value">¥45</span>
+                </div>
+                <div class="bar-item">
+                    <span class="bar-label">周五</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 70%;"></div>
+                    </div>
+                    <span class="bar-value">¥35</span>
+                </div>
+                <div class="bar-item">
+                    <span class="bar-label">周六</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 100%;"></div>
+                    </div>
+                    <span class="bar-value">¥50</span>
+                </div>
+                <div class="bar-item">
+                    <span class="bar-label">周日</span>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 50%;"></div>
+                    </div>
+                    <span class="bar-value">¥25</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 收货地址管理弹窗 -->
+    <div class="modal" id="addressModal">
+        <div class="modal-content address-modal">
+            <button class="close-btn" id="closeAddressModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2>收货地址管理</h2>
+            
+            <div class="address-list">
+                <div class="address-item active">
+                    <div class="address-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="address-info">
+                        <div class="address-title">
+                            <span class="username">张同学</span>
+                            <span class="phone">138****8888</span>
+                            <span class="default-tag">默认</span>
+                        </div>
+                        <p class="address-detail">学生公寓12号楼402室</p>
+                    </div>
+                    <button class="address-edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                
+                <div class="address-item">
+                    <div class="address-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="address-info">
+                        <div class="address-title">
+                            <span class="username">张同学</span>
+                            <span class="phone">138****8888</span>
+                        </div>
+                        <p class="address-detail">图书馆三楼自习室</p>
+                    </div>
+                    <button class="address-edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <button class="add-address-btn">
+                <i class="fas fa-plus"></i>
+                添加新地址
+            </button>
+        </div>
+    </div>
+
+    <!-- 添加地址表单弹窗 -->
+    <div class="modal" id="addAddressModal">
+        <div class="modal-content add-address-modal">
+            <button class="close-btn" id="closeAddAddressModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2>添加收货地址</h2>
+            
+            <form id="addressForm">
+                <div class="form-group">
+                    <label for="name">收货人姓名</label>
+                    <input type="text" id="name" placeholder="请输入姓名" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">联系电话</label>
+                    <input type="tel" id="phone" placeholder="请输入手机号" pattern="[0-9]{11}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="building">楼栋</label>
+                    <select id="building" required>
+                        <option value="">请选择楼栋</option>
+                        <option value="1">学生公寓1号楼</option>
+                        <option value="2">学生公寓2号楼</option>
+                        <option value="3">学生公寓3号楼</option>
+                        <option value="12">学生公寓12号楼</option>
+                        <option value="lib">图书馆</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="room">详细地址</label>
+                    <input type="text" id="room" placeholder="如：402室" required>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="defaultAddress">
+                    <label for="defaultAddress">设为默认地址</label>
+                </div>
+                
+                <button type="submit" class="submit-btn">保存地址</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="cart.html" class="nav-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span>点餐</span>
+            <span class="cart-badge" id="cartBadge">3</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-bicycle"></i>
+            <span>跑腿</span>
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>

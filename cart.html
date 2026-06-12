@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园食堂外送 - 购物车</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="cart-header">
+        <button class="back-btn" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1>购物车</h1>
+        <button class="edit-btn" id="editBtn">编辑</button>
+    </header>
+
+    <!-- 购物车列表 -->
+    <main class="cart-content">
+        <div class="cart-list" id="cartList">
+            <!-- 购物车为空时 -->
+            <div class="empty-cart" id="emptyCart">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=empty%20shopping%20cart%20icon%20cute%20cartoon&image_size=square" alt="空购物车">
+                <p>购物车空空如也</p>
+                <button class="go-shopping" onclick="window.location.href='index.html'">去点餐</button>
+            </div>
+
+            <!-- 购物车商品 -->
+            <div class="cart-items" id="cartItems" style="display: none;">
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check" checked>
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spicy%20chinese%20food%20mala%20xiang%20guo&image_size=square_hd" alt="商品图片">
+                    <div class="item-info">
+                        <h3>麻辣香锅套餐</h3>
+                        <p class="item-spec">微辣 | 中份</p>
+                        <div class="item-bottom">
+                            <span class="item-price">¥22.00</span>
+                            <div class="quantity-control">
+                                <button class="qty-minus">-</button>
+                                <span class="qty-value">1</span>
+                                <button class="qty-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check" checked>
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chinese%20beef%20noodles%20soup&image_size=square_hd" alt="商品图片">
+                    <div class="item-info">
+                        <h3>兰州拉面</h3>
+                        <p class="item-spec">牛肉拉面 | 大碗</p>
+                        <div class="item-bottom">
+                            <span class="item-price">¥15.00</span>
+                            <div class="quantity-control">
+                                <button class="qty-minus">-</button>
+                                <span class="qty-value">2</span>
+                                <button class="qty-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-item">
+                    <input type="checkbox" class="item-check">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=healthy%20salad%20bowl%20fresh&image_size=square_hd" alt="商品图片">
+                    <div class="item-info">
+                        <h3>轻食沙拉套餐</h3>
+                        <p class="item-spec">鸡胸肉沙拉</p>
+                        <div class="item-bottom">
+                            <span class="item-price">¥20.00</span>
+                            <div class="quantity-control">
+                                <button class="qty-minus">-</button>
+                                <span class="qty-value">1</span>
+                                <button class="qty-plus">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结算信息 -->
+        <div class="cart-summary" id="cartSummary" style="display: none;">
+            <div class="coupon-section">
+                <div class="coupon-left">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>优惠券</span>
+                </div>
+                <div class="coupon-right">
+                    <span>已选 0张</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            
+            <div class="fee-info">
+                <div class="fee-row">
+                    <span>商品小计</span>
+                    <span id="subtotal">¥57.00</span>
+                </div>
+                <div class="fee-row">
+                    <span>配送费</span>
+                    <span id="deliveryFee">¥3.00</span>
+                </div>
+                <div class="fee-row discount">
+                    <span>优惠</span>
+                    <span>-¥5.00</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部结算栏 -->
+    <footer class="cart-footer" id="cartFooter" style="display: none;">
+        <div class="select-all">
+            <input type="checkbox" id="selectAll" checked>
+            <span>全选</span>
+        </div>
+        <div class="total-section">
+            <div class="total-label">合计:</div>
+            <div class="total-price">¥<span id="totalPrice">55.00</span></div>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">去结算(3)</button>
+    </footer>
+
+    <!-- 下单表单弹窗 -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content order-modal">
+            <button class="close-btn" id="closeOrderModal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2>确认订单</h2>
+            
+            <!-- 配送信息 -->
+            <div class="order-section">
+                <h3>配送信息</h3>
+                <div class="address-card">
+                    <div class="address-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="address-info">
+                        <div class="address-user">
+                            <span class="username">张同学</span>
+                            <span class="phone">138****8888</span>
+                        </div>
+                        <p class="address-detail">学生公寓12号楼402室</p>
+                    </div>
+                    <button class="edit-address">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 商品清单 -->
+            <div class="order-section">
+                <h3>商品清单</h3>
+                <div class="order-items">
+                    <div class="order-item">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=spicy%20chinese%20food%20mala%20xiang%20guo&image_size=square_hd" alt="商品">
+                        <div class="order-item-info">
+                            <h4>麻辣香锅套餐</h4>
+                            <p>微辣 | 中份</p>
+                        </div>
+                        <div class="order-item-right">
+                            <span class="order-qty">x1</span>
+                            <span class="order-price">¥22.00</span>
+                        </div>
+                    </div>
+                    <div class="order-item">
+                        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chinese%20beef%20noodles%20soup&image_size=square_hd" alt="商品">
+                        <div class="order-item-info">
+                            <h4>兰州拉面</h4>
+                            <p>牛肉拉面 | 大碗</p>
+                        </div>
+                        <div class="order-item-right">
+                            <span class="order-qty">x2</span>
+                            <span class="order-price">¥30.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 费用明细 -->
+            <div class="order-section">
+                <h3>费用明细</h3>
+                <table class="fee-table">
+                    <tr>
+                        <td>商品金额</td>
+                        <td class="text-right">¥52.00</td>
+                    </tr>
+                    <tr>
+                        <td>配送费</td>
+                        <td class="text-right">¥3.00</td>
+                    </tr>
+                    <tr>
+                        <td>优惠</td>
+                        <td class="text-right discount">-¥5.00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>实付金额</td>
+                        <td class="text-right total">¥50.00</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 骑手信息 -->
+            <div class="order-section">
+                <h3>骑手信息</h3>
+                <div class="rider-card">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=delivery%20rider%20avatar%20young%20man&image_size=square" alt="骑手头像" class="rider-avatar">
+                    <div class="rider-info">
+                        <div class="rider-name">李骑手</div>
+                        <div class="rider-phone">139****6666</div>
+                    </div>
+                    <div class="rider-status">
+                        <span class="status-badge preparing">准备取餐</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 备注 -->
+            <div class="order-section">
+                <label for="remark">订单备注</label>
+                <textarea id="remark" placeholder="如有特殊要求请备注..."></textarea>
+            </div>
+
+            <!-- 支付按钮 -->
+            <button class="pay-btn" id="payBtn">提交订单 ¥50.00</button>
+        </div>
+    </div>
+
+    <!-- 下单成功弹窗 -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>下单成功!</h2>
+            <p>骑手正在赶来取餐，请耐心等待</p>
+            <div class="success-actions">
+                <button class="action-btn secondary" onclick="closeSuccessModal()">返回首页</button>
+                <button class="action-btn primary" onclick="viewOrder()">查看订单</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="cart.html" class="nav-item active">
+            <i class="fas fa-shopping-cart"></i>
+            <span>点餐</span>
+            <span class="cart-badge" id="cartBadge">3</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-bicycle"></i>
+            <span>跑腿</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
